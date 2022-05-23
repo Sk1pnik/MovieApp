@@ -1,4 +1,4 @@
-package com.skipnik.movielist
+package com.skipnik.movieapp
 
 import org.junit.Test
 

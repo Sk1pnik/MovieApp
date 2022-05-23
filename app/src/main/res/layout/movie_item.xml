@@ -25,9 +25,10 @@
         android:layout_marginStart="4dp"
         android:layout_marginTop="15dp"
         android:paddingTop="8dp"
+        android:layout_marginEnd="4dp"
         app:layout_constraintStart_toEndOf="@id/movieImage"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Inception" />
+        tools:text="InceptionInceptionInceptionInceptionInceptionInceptionInceptionInception" />
 
     <TextView
         android:id="@+id/movieReleaseDate"
@@ -40,54 +41,17 @@
         tools:text="2010" />
 
     <ImageView
-        android:id="@+id/ratingStar1"
+        android:id="@+id/ratingStar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
         app:layout_constraintStart_toEndOf="@id/movieImage"
         app:layout_constraintTop_toBottomOf="@id/movieReleaseDate"
-        tools:src="@drawable/ic_full_star" />
+        android:src="@drawable/ic_full_star"
+        android:visibility="invisible"/>
 
-    <ImageView
-        android:id="@+id/ratingStar2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
-        app:layout_constraintStart_toEndOf="@id/ratingStar1"
-        app:layout_constraintTop_toBottomOf="@id/movieReleaseDate"
-        tools:src="@drawable/ic_full_star" />
 
-    <ImageView
-        android:id="@+id/ratingStar3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
-        app:layout_constraintStart_toEndOf="@id/ratingStar2"
-        app:layout_constraintTop_toBottomOf="@id/movieReleaseDate"
-        tools:src="@drawable/ic_full_star" />
-
-    <ImageView
-        android:id="@+id/ratingStar4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
-        app:layout_constraintStart_toEndOf="@id/ratingStar3"
-        app:layout_constraintTop_toBottomOf="@id/movieReleaseDate"
-        tools:src="@drawable/ic_half_star" />
-
-    <ImageView
-        android:id="@+id/ratingStar5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
-        app:layout_constraintStart_toEndOf="@id/ratingStar4"
-        app:layout_constraintTop_toBottomOf="@id/movieReleaseDate"
-        tools:src="@drawable/ic_empty_star" />
 
     <TextView
         android:id="@+id/movieRating"
@@ -96,12 +60,13 @@
         android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
         android:gravity="center_vertical"
-        app:layout_constraintBottom_toBottomOf="@id/ratingStar5"
-        app:layout_constraintStart_toEndOf="@id/ratingStar5"
+        app:layout_constraintBottom_toBottomOf="@id/ratingStar"
+        app:layout_constraintStart_toEndOf="@id/ratingStar"
         app:layout_constraintTop_toBottomOf="@id/movieReleaseDate"
         tools:text="4.5" />
 
     <TextView
+        android:id="@+id/movieVoteCount"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginStart="4dp"
@@ -113,13 +78,15 @@
         tools:text="(10.10k)" />
 
     <TextView
+        android:id="@+id/movieGenres"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
         tools:text="Action, Adventure, Sci-Fi"
         app:layout_constraintStart_toEndOf="@id/movieImage"
-        app:layout_constraintTop_toBottomOf="@id/ratingStar1"
+        app:layout_constraintTop_toBottomOf="@id/ratingStar"
         android:textAlignment="viewStart"
         />
 
