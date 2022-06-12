@@ -1,4 +1,4 @@
-package com.skipnik.movieapp.ui.topratedmovies
+package com.skipnik.movieapp.ui.favoritemovies
 
 import android.os.Bundle
 import android.view.View
@@ -11,14 +11,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.skipnik.movieapp.R
 import com.skipnik.movieapp.data.database.MovieEntity
 import com.skipnik.movieapp.databinding.FragmentMoviesBinding
-import com.skipnik.movieapp.ui.MoviesAdapter
+import com.skipnik.movieapp.ui.FavoritesMovieAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class TopRatedMoviesFragment : Fragment(R.layout.fragment_movies), MoviesAdapter.OnItemClickListener {
+class FavoriteMoviesFragment : Fragment(R.layout.fragment_movies), FavoritesMovieAdapter.OnItemClickListener {
 
-    private val viewModel: TopRatedMoviesViewModel by viewModels()
+    private val viewModel: FavoriteMoviesViewModel by viewModels()
 
     private var _binding: FragmentMoviesBinding? = null
     val binding get() = _binding!!
@@ -28,7 +28,7 @@ class TopRatedMoviesFragment : Fragment(R.layout.fragment_movies), MoviesAdapter
 
         _binding = FragmentMoviesBinding.bind(view)
 
-        val moviesAdapter = MoviesAdapter(this)
+        val moviesAdapter = FavoritesMovieAdapter(this)
 
         binding.apply {
             recyclerViewMovies.apply {
@@ -41,7 +41,7 @@ class TopRatedMoviesFragment : Fragment(R.layout.fragment_movies), MoviesAdapter
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.movies.collect {
-                    moviesAdapter.submitData(viewLifecycleOwner.lifecycle, it)
+                    moviesAdapter.submitList(it)
                 }
             }
         }
@@ -49,7 +49,7 @@ class TopRatedMoviesFragment : Fragment(R.layout.fragment_movies), MoviesAdapter
 
     override fun onFavoriteClick(movie: MovieEntity) {
 
-       viewModel.addToFavorites(movie)
+        viewModel.deleteFromFavorites(movie)
     }
 
     override fun onDestroyView() {
@@ -59,3 +59,5 @@ class TopRatedMoviesFragment : Fragment(R.layout.fragment_movies), MoviesAdapter
 
 
 }
+
+

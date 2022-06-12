@@ -10,4 +10,12 @@
         android:name="com.skipnik.movieapp.ui.topratedmovies.TopRatedMoviesFragment"
         android:label="Movies"
         tools:layout="@layout/fragment_movies" />
+    <fragment
+        android:id="@+id/searchMovieFragment"
+        android:name="com.skipnik.movieapp.ui.searchmovie.SearchMovieFragment"
+        android:label="SearchMovieFragment" />
+    <fragment
+        android:id="@+id/favoriteMoviesFragment"
+        android:name="com.skipnik.movieapp.ui.favoritemovies.FavoriteMoviesFragment"
+        android:label="FavoriteMoviesFragment" />
 </navigation>

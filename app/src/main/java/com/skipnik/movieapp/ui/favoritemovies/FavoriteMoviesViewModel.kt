@@ -1,9 +1,8 @@
-package com.skipnik.movieapp.ui.topratedmovies
+package com.skipnik.movieapp.ui.favoritemovies
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
-import androidx.paging.liveData
 import com.skipnik.movieapp.data.MoviesRepository
 import com.skipnik.movieapp.data.database.MovieDatabase
 import com.skipnik.movieapp.data.database.MovieEntity
@@ -13,26 +12,18 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class TopRatedMoviesViewModel @Inject constructor(
+class FavoriteMoviesViewModel @Inject constructor(
     private val repository: MoviesRepository,
     private val db: MovieDatabase
 ) : ViewModel() {
-
     private val movieDao = db.movieDao()
 
-    val movies = repository.getMovies(FetchState.Popular)
+    val movies = movieDao.getFavorites()
 
-    fun addToFavorites(movie: MovieEntity)= viewModelScope.launch{
-        when (movie.isFavorite) {
-            true -> {
-                movie.isFavorite = !movie.isFavorite
-                movieDao.deleteMovie(movie)
-            }
-            false -> {
-                movie.isFavorite = !movie.isFavorite
-                movieDao.addMovie(movie)
-            }
-        }
+    fun deleteFromFavorites(movie: MovieEntity) = viewModelScope.launch {
+        movie.isFavorite = !movie.isFavorite
+        movieDao.deleteMovie(movie)
     }
 
 }
+

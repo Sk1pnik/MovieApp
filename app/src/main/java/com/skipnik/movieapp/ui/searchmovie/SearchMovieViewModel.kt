@@ -1,26 +1,39 @@
-package com.skipnik.movieapp.ui.topratedmovies
+package com.skipnik.movieapp.ui.searchmovie
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
-import androidx.paging.liveData
 import com.skipnik.movieapp.data.MoviesRepository
+import com.skipnik.movieapp.data.PreferenceManager
 import com.skipnik.movieapp.data.database.MovieDatabase
 import com.skipnik.movieapp.data.database.MovieEntity
 import com.skipnik.movieapp.utils.FetchState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+
 @HiltViewModel
-class TopRatedMoviesViewModel @Inject constructor(
+class SearchMovieViewModel @Inject constructor(
     private val repository: MoviesRepository,
-    private val db: MovieDatabase
+    private val preferenceManager: PreferenceManager,
+    private val db : MovieDatabase
 ) : ViewModel() {
 
     private val movieDao = db.movieDao()
+    private val preferenceFlow = preferenceManager.preferencesFlow
 
-    val movies = repository.getMovies(FetchState.Popular)
+
+    val movies = preferenceFlow.flatMapLatest { preferences ->
+      repository.getMovies(FetchState.Search(preferences)).cachedIn(viewModelScope)
+    }
+
+    fun updateMovieQuery(newMovie: String) {
+        viewModelScope.launch {
+            preferenceManager.updateMovieQuery(newMovie)
+        }
+    }
 
     fun addToFavorites(movie: MovieEntity)= viewModelScope.launch{
         when (movie.isFavorite) {
@@ -34,5 +47,5 @@ class TopRatedMoviesViewModel @Inject constructor(
             }
         }
     }
-
 }
+

@@ -1,33 +1,31 @@
 package com.skipnik.movieapp.ui
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
-import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.skipnik.movieapp.R
 import com.skipnik.movieapp.data.database.MovieEntity
 import com.skipnik.movieapp.databinding.MovieItemBinding
 
-private val TAG = "Movie"
+class FavoritesMovieAdapter(private val listener: OnItemClickListener) :
+    ListAdapter<MovieEntity, FavoritesMovieAdapter.FavoritesMovieViewHolder>(
+        FavoritesMovieComparator()
+    ) {
 
-class MoviesAdapter(private val listener: OnItemClickListener) :
-    PagingDataAdapter<MovieEntity, MoviesAdapter.MovieViewHolder>(MOVIE_COMPARATOR) {
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoritesMovieViewHolder {
         val binding = MovieItemBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
         )
-        return MovieViewHolder(binding)
+        return FavoritesMovieViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: FavoritesMovieViewHolder, position: Int) {
         val currentItem = getItem(position)
 
         if (currentItem != null) {
@@ -36,7 +34,7 @@ class MoviesAdapter(private val listener: OnItemClickListener) :
         }
     }
 
-    inner class MovieViewHolder(private val binding: MovieItemBinding) :
+    inner class FavoritesMovieViewHolder(private val binding: MovieItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         init {
@@ -56,10 +54,6 @@ class MoviesAdapter(private val listener: OnItemClickListener) :
                         val movie = getItem(position)
                         if (movie != null) {
                             listener.onFavoriteClick(movie)
-                            if (movie.isFavorite)
-                                movieFavorite.setImageResource(R.drawable.ic_save_filled)
-                            else
-                                movieFavorite.setImageResource(R.drawable.ic_save)
                         }
                     }
                 }
@@ -82,24 +76,23 @@ class MoviesAdapter(private val listener: OnItemClickListener) :
                     .replace("[", "")
                     .replace("]", "")
 
-                if (movie.isFavorite)
-                    movieFavorite.setImageResource(R.drawable.ic_save_filled)
-                else
-                    movieFavorite.setImageResource(R.drawable.ic_save)
+                when (movie.isFavorite) {
+                    true -> movieFavorite.setImageResource(R.drawable.ic_save_filled)
+                    false -> movieFavorite.setImageResource(R.drawable.ic_save)
+                }
             }
 
         }
     }
 
-    companion object {
-        private val MOVIE_COMPARATOR = object : DiffUtil.ItemCallback<MovieEntity>() {
+    class FavoritesMovieComparator : DiffUtil.ItemCallback<MovieEntity>() {
+        override fun areItemsTheSame(oldItem: MovieEntity, newItem: MovieEntity) =
+            oldItem.id == newItem.id
 
-            override fun areItemsTheSame(oldItem: MovieEntity, newItem: MovieEntity) =
-                oldItem.id == newItem.id
 
-            override fun areContentsTheSame(oldItem: MovieEntity, newItem: MovieEntity) =
-                oldItem == newItem
-        }
+        override fun areContentsTheSame(oldItem: MovieEntity, newItem: MovieEntity) =
+            oldItem == newItem
+
     }
 
     interface OnItemClickListener {

@@ -1,6 +1,9 @@
 package com.skipnik.movieapp.di
 
+import android.app.Application
+import androidx.room.Room
 import com.skipnik.movieapp.api.MoviesApi
+import com.skipnik.movieapp.data.database.MovieDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,4 +28,14 @@ object AppModule {
     @Singleton
     fun provideMoviesApi(retrofit: Retrofit) : MoviesApi =
         retrofit.create(MoviesApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideDatabase(app: Application): MovieDatabase =
+        Room.databaseBuilder(
+            app,
+            MovieDatabase::class.java,
+            "movie_database"
+        ).build()
+
 }
