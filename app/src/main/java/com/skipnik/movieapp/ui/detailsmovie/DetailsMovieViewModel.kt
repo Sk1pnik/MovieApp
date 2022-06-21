@@ -42,7 +42,5 @@ class DetailsMovieViewModel @Inject constructor(
                 movieDao.deleteMovie(movie)
             }
         }
-
-        movieDao.addMovie(movie)
     }
 }
