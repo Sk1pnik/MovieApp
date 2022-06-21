@@ -41,25 +41,25 @@ class MoviesAdapter(private val listener: OnItemClickListener) :
 
         init {
             binding.apply {
-//                root.setOnClickListener {
-//                    val position = bindingAdapterPosition
-//                    if (position != RecyclerView.NO_POSITION) {
-//                        val task = getItem(position)
-//                        if (task != null) {
-//                            listener.onItemClick(task)
-//                        }
-//                    }
-//                }
+                root.setOnClickListener {
+                    val position = bindingAdapterPosition
+                    if (position != RecyclerView.NO_POSITION) {
+                        val movie = getItem(position)
+                        if (movie != null) {
+                            listener.onItemClick( movie)
+                        }
+                    }
+                }
                 movieFavorite.setOnClickListener {
                     val position = bindingAdapterPosition
                     if (position != RecyclerView.NO_POSITION) {
                         val movie = getItem(position)
                         if (movie != null) {
                             listener.onFavoriteClick(movie)
-                            if (movie.isFavorite)
-                                movieFavorite.setImageResource(R.drawable.ic_save_filled)
-                            else
-                                movieFavorite.setImageResource(R.drawable.ic_save)
+                            when (movie.isFavorite) {
+                                true -> movieFavorite.setImageResource(R.drawable.ic_bookmark_border_choosen)
+                                false -> movieFavorite.setImageResource(R.drawable.ic_bookmark_border)
+                            }
                         }
                     }
                 }
@@ -82,10 +82,10 @@ class MoviesAdapter(private val listener: OnItemClickListener) :
                     .replace("[", "")
                     .replace("]", "")
 
-                if (movie.isFavorite)
-                    movieFavorite.setImageResource(R.drawable.ic_save_filled)
-                else
-                    movieFavorite.setImageResource(R.drawable.ic_save)
+                when (movie.isFavorite) {
+                    true -> movieFavorite.setImageResource(R.drawable.ic_bookmark_border_choosen)
+                    false -> movieFavorite.setImageResource(R.drawable.ic_bookmark_border)
+                }
             }
 
         }
@@ -103,7 +103,7 @@ class MoviesAdapter(private val listener: OnItemClickListener) :
     }
 
     interface OnItemClickListener {
-        //        fun onItemClick(movie: MovieEntity)
+        fun onItemClick( movie: MovieEntity)
         fun onFavoriteClick(movie: MovieEntity)
     }
 }

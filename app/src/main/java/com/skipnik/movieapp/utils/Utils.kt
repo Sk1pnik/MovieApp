@@ -1,6 +1,7 @@
 package com.skipnik.movieapp.utils
 
 import androidx.appcompat.widget.SearchView
+import com.skipnik.movieapp.R
 import com.skipnik.movieapp.data.networkmodel.moviesgenre.Genres
 
 fun getGenres(genreIds: List<Int>, genres: Genres):List<String> {

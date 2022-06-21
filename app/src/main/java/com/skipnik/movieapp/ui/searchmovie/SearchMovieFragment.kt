@@ -1,7 +1,6 @@
 package com.skipnik.movieapp.ui.searchmovie
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
@@ -11,12 +10,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.skipnik.movieapp.R
 import com.skipnik.movieapp.data.database.MovieEntity
 import com.skipnik.movieapp.databinding.FragmentMoviesBinding
 import com.skipnik.movieapp.ui.MoviesAdapter
-import com.skipnik.movieapp.ui.topratedmovies.TopRatedMoviesViewModel
 import com.skipnik.movieapp.utils.onQueryTextSubmit
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -28,7 +27,7 @@ class SearchMovieFragment : Fragment(R.layout.fragment_movies), MoviesAdapter.On
     private val viewModel: SearchMovieViewModel by viewModels()
 
     private var _binding: FragmentMoviesBinding? = null
-    val binding get() = _binding!!
+    private val binding get() = _binding!!
 
     private lateinit var searchView: SearchView
 
@@ -70,9 +69,13 @@ class SearchMovieFragment : Fragment(R.layout.fragment_movies), MoviesAdapter.On
         }
     }
 
-//    override fun onItemClick(movie: MovieEntity) {
-//        TODO("Not yet implemented")
-//    }
+    override fun onItemClick(movie: MovieEntity) {
+        val action = SearchMovieFragmentDirections.actionSearchMovieFragmentToDetailsMovieFragment(
+            movie,
+            movie.title
+        )
+        findNavController().navigate(action)
+    }
 
     override fun onFavoriteClick(movie: MovieEntity) {
         viewModel.addToFavorites(movie)

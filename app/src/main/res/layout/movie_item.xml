@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="4dp">
+    android:layout_margin="4dp"
+    android:background="@color/ratingBackground">
 
 
     <FrameLayout
@@ -28,9 +29,9 @@
 
         <ImageView
             android:id="@+id/movieFavorite"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/ic_save"/>
+            android:layout_width="45dp"
+            android:layout_height="42dp"
+            android:src="@drawable/ic_bookmark_border" />
 
 
     </FrameLayout>
@@ -41,8 +42,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="15dp"
-        android:paddingTop="8dp"
         android:layout_marginEnd="4dp"
+        android:paddingTop="8dp"
+        android:textColor="@color/white"
         app:layout_constraintStart_toEndOf="@id/imageLayout"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="InceptionInceptionInceptionInceptionInceptionInceptionInceptionInception" />
@@ -53,6 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
+        android:textColor="@color/white"
         app:layout_constraintStart_toEndOf="@id/imageLayout"
         app:layout_constraintTop_toBottomOf="@id/movieName"
         tools:text="2010" />
@@ -63,11 +66,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
-        app:layout_constraintStart_toEndOf="@id/imageLayout"
-        app:layout_constraintTop_toBottomOf="@id/movieReleaseDate"
         android:src="@drawable/ic_full_star"
-        android:visibility="invisible"/>
-
+        android:visibility="invisible"
+        app:layout_constraintStart_toEndOf="@id/imageLayout"
+        app:layout_constraintTop_toBottomOf="@id/movieReleaseDate" />
 
 
     <TextView
@@ -77,6 +79,7 @@
         android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
         android:gravity="center_vertical"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@id/ratingStar"
         app:layout_constraintStart_toEndOf="@id/ratingStar"
         app:layout_constraintTop_toBottomOf="@id/movieReleaseDate"
@@ -89,6 +92,7 @@
         android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
         android:gravity="center_vertical"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@id/movieRating"
         app:layout_constraintStart_toEndOf="@id/movieRating"
         app:layout_constraintTop_toBottomOf="@id/movieReleaseDate"
@@ -101,12 +105,11 @@
         android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="4dp"
-        tools:text="Action, Adventure, Sci-Fi"
+        android:textAlignment="viewStart"
+        android:textColor="@color/white"
         app:layout_constraintStart_toEndOf="@id/imageLayout"
         app:layout_constraintTop_toBottomOf="@id/ratingStar"
-        android:textAlignment="viewStart"
-        />
-
+        tools:text="Action, Adventure, Sci-Fi" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

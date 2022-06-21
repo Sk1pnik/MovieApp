@@ -6,8 +6,10 @@ import com.skipnik.movieapp.api.MoviesApi
 import com.skipnik.movieapp.data.database.MovieDao
 import com.skipnik.movieapp.data.database.MovieDatabase
 import com.skipnik.movieapp.data.database.MovieEntity
-import com.skipnik.movieapp.data.networkmodel.movies.toDatabaseEntities
+import com.skipnik.movieapp.data.networkmodel.movies.toDatabaseEntity
 import com.skipnik.movieapp.utils.FetchState
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -25,7 +27,7 @@ class MoviesPagingSource(
         return try {
             val genres = moviesApi.getGenres()
             val result = when (state) {
-                is FetchState.Search ->{
+                is FetchState.Search -> {
                     moviesApi.searchMovie(
                         page = position,
                         query = state.searchQuery
@@ -34,11 +36,14 @@ class MoviesPagingSource(
                 FetchState.Popular -> {
                     moviesApi.getTopRatedMovies(page = position)
                 }
-
             }
-            val movies = result.toDatabaseEntities(genres,movieDao)
 
-
+            val movies = result.results.map {
+                withContext(Dispatchers.IO) {
+                    val isFavorite = movieDao.isFavorite(it.id)
+                    it.toDatabaseEntity(genres, isFavorite)
+                }
+            }
 
             LoadResult.Page(
                 data = movies,

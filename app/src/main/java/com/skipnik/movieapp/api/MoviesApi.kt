@@ -2,9 +2,12 @@ package com.skipnik.movieapp.api
 
 import android.net.Uri
 import com.skipnik.movieapp.BuildConfig
+import com.skipnik.movieapp.data.networkmodel.moviedetails.MovieDetails
 import com.skipnik.movieapp.data.networkmodel.movies.Result
 import com.skipnik.movieapp.data.networkmodel.moviesgenre.Genres
+import kotlinx.coroutines.flow.Flow
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface MoviesApi {
@@ -26,6 +29,12 @@ interface MoviesApi {
         @Query("page") page: Int,
         @Query("query") query: String
     ): Result
+
+    @GET("movie/{movie_id}")
+   suspend fun movieDetails(
+        @Path("movie_id") id: Int,
+        @Query("api_key") apiKey: String = API_KEY
+    ): MovieDetails
 
     companion object {
         const val BASE_URL = "https://api.themoviedb.org/3/"

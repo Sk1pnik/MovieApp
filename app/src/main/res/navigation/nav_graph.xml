@@ -7,15 +7,39 @@
 
     <fragment
         android:id="@+id/topRatedMoviesFragment"
-        android:name="com.skipnik.movieapp.ui.topratedmovies.TopRatedMoviesFragment"
-        android:label="Movies"
-        tools:layout="@layout/fragment_movies" />
+        android:name="com.skipnik.movieapp.ui.popularmovies.PopularMoviesFragment"
+        android:label="Popular"
+        tools:layout="@layout/fragment_movies">
+        <action
+            android:id="@+id/action_topRatedMoviesFragment_to_detailsMovieFragment"
+            app:destination="@id/detailsMovieFragment" />
+    </fragment>
     <fragment
         android:id="@+id/searchMovieFragment"
         android:name="com.skipnik.movieapp.ui.searchmovie.SearchMovieFragment"
-        android:label="SearchMovieFragment" />
+        android:label="Search">
+        <action
+            android:id="@+id/action_searchMovieFragment_to_detailsMovieFragment"
+            app:destination="@id/detailsMovieFragment" />
+    </fragment>
     <fragment
         android:id="@+id/favoriteMoviesFragment"
         android:name="com.skipnik.movieapp.ui.favoritemovies.FavoriteMoviesFragment"
-        android:label="FavoriteMoviesFragment" />
+        android:label="Favorite">
+        <action
+            android:id="@+id/action_favoriteMoviesFragment_to_detailsMovieFragment"
+            app:destination="@id/detailsMovieFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailsMovieFragment"
+        android:name="com.skipnik.movieapp.ui.detailsmovie.DetailsMovieFragment"
+        android:label="{name}"
+        tools:layout="@layout/fragment_movie_details">
+        <argument
+            android:name="movie"
+            app:argType="com.skipnik.movieapp.data.database.MovieEntity" />
+        <argument
+            android:name="name"
+            app:argType="string" />
+    </fragment>
 </navigation>

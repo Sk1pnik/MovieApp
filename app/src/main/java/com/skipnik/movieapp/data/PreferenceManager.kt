@@ -1,9 +1,7 @@
 package com.skipnik.movieapp.data
 
 import android.content.Context
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.emptyPreferences
-import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
@@ -20,9 +18,7 @@ class PreferenceManager @Inject constructor(@ApplicationContext context: Context
 
     private val preferencesDataStore = context.dataStore
 
-    private val MOVIE_NAME = stringPreferencesKey("movie_name")
-
-    val preferencesFlow: Flow<String> = preferencesDataStore.data
+    val preferencesFlow: Flow<MoviePreferences> = preferencesDataStore.data
         .catch { exception ->
             if (exception is IOException) {
                 emit(emptyPreferences())
@@ -31,15 +27,25 @@ class PreferenceManager @Inject constructor(@ApplicationContext context: Context
             }
         }
         .map { preferences ->
-            val movie = preferences[MOVIE_NAME] ?: ""
-            movie
+            val movie = preferences[PreferencesKeys.MOVIE_NAME] ?: ""
+            MoviePreferences(movie)
         }
 
     suspend fun updateMovieQuery(newMovie: String) {
         preferencesDataStore.edit { preferences ->
-            preferences[MOVIE_NAME] = newMovie
+            preferences[PreferencesKeys.MOVIE_NAME] = newMovie
         }
     }
+
+
+    private object PreferencesKeys {
+        val MOVIE_NAME = stringPreferencesKey("movie_name")
+    }
+
+
+    data class MoviePreferences(
+        val movieName: String,
+    )
 
 
 }

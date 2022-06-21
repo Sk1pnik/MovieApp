@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.skipnik.movieapp.R
 import com.skipnik.movieapp.data.database.MovieEntity
@@ -16,12 +17,13 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class FavoriteMoviesFragment : Fragment(R.layout.fragment_movies), FavoritesMovieAdapter.OnItemClickListener {
+class FavoriteMoviesFragment : Fragment(R.layout.fragment_movies),
+    FavoritesMovieAdapter.OnItemClickListener {
 
     private val viewModel: FavoriteMoviesViewModel by viewModels()
 
     private var _binding: FragmentMoviesBinding? = null
-    val binding get() = _binding!!
+    private val binding get() = _binding!!
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -52,12 +54,19 @@ class FavoriteMoviesFragment : Fragment(R.layout.fragment_movies), FavoritesMovi
         viewModel.deleteFromFavorites(movie)
     }
 
+    override fun onItemClick(movie: MovieEntity) {
+        val action =
+            FavoriteMoviesFragmentDirections.actionFavoriteMoviesFragmentToDetailsMovieFragment(
+                movie,
+                movie.title
+            )
+        findNavController().navigate(action)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
-
 }
 
 

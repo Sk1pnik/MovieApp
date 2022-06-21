@@ -1,4 +1,4 @@
-package com.skipnik.movieapp.ui.topratedmovies
+package com.skipnik.movieapp.ui.popularmovies
 
 import android.os.Bundle
 import android.view.View
@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.skipnik.movieapp.R
 import com.skipnik.movieapp.data.database.MovieEntity
@@ -16,12 +17,14 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class TopRatedMoviesFragment : Fragment(R.layout.fragment_movies), MoviesAdapter.OnItemClickListener {
+class PopularMoviesFragment : Fragment(R.layout.fragment_movies),
+    MoviesAdapter.OnItemClickListener {
 
-    private val viewModel: TopRatedMoviesViewModel by viewModels()
+    private val viewModel: PopularMoviesViewModel by viewModels()
 
     private var _binding: FragmentMoviesBinding? = null
-    val binding get() = _binding!!
+    private val binding get() = _binding!!
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -49,7 +52,16 @@ class TopRatedMoviesFragment : Fragment(R.layout.fragment_movies), MoviesAdapter
 
     override fun onFavoriteClick(movie: MovieEntity) {
 
-       viewModel.addToFavorites(movie)
+        viewModel.addToFavorites(movie)
+    }
+
+    override fun onItemClick(movie: MovieEntity) {
+        val action =
+            PopularMoviesFragmentDirections.actionTopRatedMoviesFragmentToDetailsMovieFragment(
+                movie,
+                movie.title
+            )
+        findNavController().navigate(action)
     }
 
     override fun onDestroyView() {

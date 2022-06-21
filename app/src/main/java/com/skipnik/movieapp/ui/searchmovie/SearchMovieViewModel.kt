@@ -26,7 +26,7 @@ class SearchMovieViewModel @Inject constructor(
 
 
     val movies = preferenceFlow.flatMapLatest { preferences ->
-      repository.getMovies(FetchState.Search(preferences)).cachedIn(viewModelScope)
+      repository.getMovies(FetchState.Search(preferences.movieName)).cachedIn(viewModelScope)
     }
 
     fun updateMovieQuery(newMovie: String) {

@@ -1,9 +1,7 @@
-package com.skipnik.movieapp.ui.topratedmovies
+package com.skipnik.movieapp.ui.popularmovies
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.cachedIn
-import androidx.paging.liveData
 import com.skipnik.movieapp.data.MoviesRepository
 import com.skipnik.movieapp.data.database.MovieDatabase
 import com.skipnik.movieapp.data.database.MovieEntity
@@ -13,7 +11,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class TopRatedMoviesViewModel @Inject constructor(
+class PopularMoviesViewModel @Inject constructor(
     private val repository: MoviesRepository,
     private val db: MovieDatabase
 ) : ViewModel() {

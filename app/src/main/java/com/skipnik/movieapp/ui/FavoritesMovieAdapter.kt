@@ -39,15 +39,15 @@ class FavoritesMovieAdapter(private val listener: OnItemClickListener) :
 
         init {
             binding.apply {
-//                root.setOnClickListener {
-//                    val position = bindingAdapterPosition
-//                    if (position != RecyclerView.NO_POSITION) {
-//                        val task = getItem(position)
-//                        if (task != null) {
-//                            listener.onItemClick(task)
-//                        }
-//                    }
-//                }
+                root.setOnClickListener {
+                    val position = bindingAdapterPosition
+                    if (position != RecyclerView.NO_POSITION) {
+                        val movie = getItem(position)
+                        if (movie != null) {
+                            listener.onItemClick(movie)
+                        }
+                    }
+                }
                 movieFavorite.setOnClickListener {
                     val position = bindingAdapterPosition
                     if (position != RecyclerView.NO_POSITION) {
@@ -60,7 +60,6 @@ class FavoritesMovieAdapter(private val listener: OnItemClickListener) :
             }
         }
 
-
         fun bind(movie: MovieEntity) {
             binding.apply {
                 Glide.with(itemView)
@@ -70,15 +69,15 @@ class FavoritesMovieAdapter(private val listener: OnItemClickListener) :
                 movieName.text = movie.title
                 movieReleaseDate.text = movie.release_date
                 ratingStar.visibility = View.VISIBLE
-                movieRating.text = movie.vote_average.toString()
+                movieRating.text = movie.vote_average
                 movieVoteCount.text = "(${movie.vote_count})"
                 movieGenres.text = movie.genres
                     .replace("[", "")
                     .replace("]", "")
 
                 when (movie.isFavorite) {
-                    true -> movieFavorite.setImageResource(R.drawable.ic_save_filled)
-                    false -> movieFavorite.setImageResource(R.drawable.ic_save)
+                    true -> movieFavorite.setImageResource(R.drawable.ic_bookmark_border_choosen)
+                    false -> movieFavorite.setImageResource(R.drawable.ic_bookmark_border)
                 }
             }
 
@@ -92,11 +91,10 @@ class FavoritesMovieAdapter(private val listener: OnItemClickListener) :
 
         override fun areContentsTheSame(oldItem: MovieEntity, newItem: MovieEntity) =
             oldItem == newItem
-
     }
 
     interface OnItemClickListener {
-        //        fun onItemClick(movie: MovieEntity)
+        fun onItemClick(movie: MovieEntity)
         fun onFavoriteClick(movie: MovieEntity)
     }
 }
