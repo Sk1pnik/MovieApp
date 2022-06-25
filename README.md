@@ -20,5 +20,3 @@ MovieApp is Android project using The Movie DB API and MVVM architecture.
 * Navigation Component
 * View Binding
 * Glide
-
-```
